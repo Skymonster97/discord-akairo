@@ -77,7 +77,6 @@ declare module 'discord-akairo' {
         public readonly client: AkairoClient;
         public command: Command;
         public default: DefaultValueSupplier | any;
-        public description: string | any;
         public readonly handler: CommandHandler;
         public index?: number;
         public limit: number;
@@ -89,7 +88,6 @@ declare module 'discord-akairo' {
         public type: ArgumentType | ArgumentTypeCaster;
         public unordered: boolean | number | number[];
 
-        public allow(message: Message): boolean;
         public cast(message: Message, phrase: string): Promise<any>;
         public collect(message: Message, commandInput?: string): Promise<Flag | any>;
         public process(message: Message, phrase: string): Promise<any>;
@@ -153,7 +151,6 @@ declare module 'discord-akairo' {
 
         public aliases: string[];
         public argumentDefaults: DefaultArgumentOptions;
-        public quoted: boolean;
         public category: Category<string, Command>;
         public channel?: string;
         public client: AkairoClient;
@@ -495,7 +492,6 @@ declare module 'discord-akairo' {
 
     export interface ArgumentOptions {
         default?: DefaultValueSupplier | any;
-        description?: StringResolvable;
         id?: string;
         index?: number;
         limit?: number;
