@@ -781,7 +781,7 @@ class CommandHandler extends AkairoHandler {
      */
     async parseCommand(message) {
         let prefixes = intoArray(await intoCallable(this.prefix)(message));
-        const allowMention = await intoCallable(this.prefix)(message);
+        const allowMention = await intoCallable(this.allowMention)(message);
         if (allowMention) {
             const mentions = [`<@${this.client.user.id}>`, `<@!${this.client.user.id}>`];
             prefixes = [...mentions, ...prefixes];
