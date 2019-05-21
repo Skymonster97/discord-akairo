@@ -49,7 +49,7 @@ class Argument {
          * Whether to process multiple option flags instead of just the first.
          * @type {boolean}
          */
-        this.multipleFlags = multipleFlags;
+        this.multipleFlags = Boolean(multipleFlags);
 
         /**
          * The index to start from.
