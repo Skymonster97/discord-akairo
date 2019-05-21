@@ -749,7 +749,9 @@ declare module 'discord-akairo' {
             GUILDS: 'guilds';
             MESSAGE: 'message';
             GUILD_MESSAGE: 'guildMessage';
+            RELEVANT_MESSAGE: 'relevantMessage';
             INVITE: 'invite';
+            USER_MENTION: 'userMention';
             MEMBER_MENTION: 'memberMention';
             CHANNEL_MENTION: 'channelMention';
             ROLE_MENTION: 'roleMention';
@@ -770,6 +772,7 @@ declare module 'discord-akairo' {
             COMMAND_STARTED: 'commandStarted';
             COMMAND_FINISHED: 'commandFinished';
             COMMAND_CANCELLED: 'commandCancelled';
+            COMMAND_BREAKOUT: 'commandBreakout';
             COMMAND_LOCKED: 'commandLocked';
             MISSING_PERMISSIONS: 'missingPermissions';
             COOLDOWN: 'cooldown';
