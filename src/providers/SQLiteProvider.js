@@ -38,7 +38,7 @@ class SQLiteProvider extends Provider {
 
     /**
      * Initializes the provider.
-     * @returns {Promise<void>}
+     * @returns {Promise<SQLiteProvider>}
      */
     async init() {
         const db = await this.db;
@@ -48,6 +48,8 @@ class SQLiteProvider extends Provider {
         for (const row of rows) {
             this.items.set(row[this.idColumn], this.dataColumn ? JSON.parse(row[this.dataColumn]) : row);
         }
+
+        return this;
     }
 
     /**
