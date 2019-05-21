@@ -1042,13 +1042,6 @@ module.exports = CommandHandler;
  */
 
 /**
- * Emitted when a command is found disabled.
- * @event CommandHandler#commandDisabled
- * @param {Message} message - Message sent.
- * @param {Command} command - Command found.
- */
-
-/**
  * Emitted when a command is blocked by a post-message inhibitor.
  * The built-in inhibitors are 'owner', 'guild', and 'dm'.
  * @event CommandHandler#commandBlocked
