@@ -746,23 +746,12 @@ module.exports = Argument;
  */
 
 /**
- * A function for processing user input to use as an argument.
- * A void return value will use the default value for the argument or start a prompt.
- * Any other truthy return value will be used as the evaluated argument.
- * If returning a Promise, the resolved value will go through the above steps.
- * @typedef {Function} ArgumentTypeCaster
- * @param {Message} message - Message that triggered the command.
- * @param {string} phrase - The user input.
- * @returns {any}
- */
-
-/**
  * A function for processing some value to use as an argument.
  * This is mainly used in composing argument types.
  * @typedef {Function} ArgumentTypeCaster
  * @param {Message} message - Message that triggered the command.
- * @param {any} value - Some value.
- * @returns {any}
+ * @param {string} phrase - The user input.
+ * @returns {Promise<any>}
  */
 
 /**
