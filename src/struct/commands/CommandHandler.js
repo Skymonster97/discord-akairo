@@ -853,20 +853,21 @@ class CommandHandler extends AkairoHandler {
         const command = this.findCommand(alias);
         const content = message.content.slice(startOfArgs + alias.length + 1).trim();
         const afterPrefix = message.content.slice(prefix.length).trim();
+        const data = { prefix, alias, content, afterPrefix };
 
         if (!command) {
-            return { prefix, alias, content, afterPrefix };
+            return data;
         }
 
         if (associatedCommands == null) {
             if (command.prefix != null) {
-                return { prefix, alias, content, afterPrefix };
+                return data;
             }
         } else if (!associatedCommands.has(command.id)) {
-            return { prefix, alias, content, afterPrefix };
+            return data;
         }
 
-        return { command, prefix, alias, content, afterPrefix };
+        return { command, ...data };
     }
 
     /**
