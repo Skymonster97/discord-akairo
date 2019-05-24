@@ -80,15 +80,12 @@ class TypeResolver {
                 return BigInt(phrase); // eslint-disable-line no-undef, new-cap
             },
 
-            // Just for fun.
             [ArgumentTypes.EMOJINT]: (message, phrase) => {
                 if (!phrase) return null;
-                const n = phrase.replace(/0⃣|1⃣|2⃣|3⃣|4⃣|5⃣|6⃣|7⃣|8⃣|9⃣|🔟/g, m => {
-                    return ['0⃣', '1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣', '🔟'].indexOf(m);
-                });
-
-                if (isNaN(n)) return null;
-                return parseInt(n);
+                const emojis = '0⃣ 1⃣ 2⃣ 3⃣ 4⃣ 5⃣ 6⃣ 7⃣ 8⃣ 9⃣ 🔟'.split(' ');
+                const regex = new RegExp(emojis.join('|'), 'g');
+                const num = phrase.replace(regex, m => emojis.indexOf(m));
+                return isNaN(num) ? null : parseInt(num);
             },
 
             [ArgumentTypes.URL]: (message, phrase) => {
