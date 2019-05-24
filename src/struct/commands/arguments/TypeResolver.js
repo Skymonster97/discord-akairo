@@ -311,12 +311,13 @@ class TypeResolver {
 
             [ArgumentTypes.GUILD_MESSAGE]: async (message, phrase) => {
                 if (!phrase) return null;
+
                 for (const channel of message.guild.channels.cache.values()) {
                     if (channel.type !== 'text') continue;
                     try {
                         return await channel.messages.fetch(phrase);
                     } catch (err) {
-                        if (/^Invalid Form Body/.test(err.message)) return null;
+                        if (/^Invalid Form Body/.test(err.message)) break;
                     }
                 }
 
