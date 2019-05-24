@@ -351,37 +351,32 @@ class TypeResolver {
 
             [ArgumentTypes.USER_MENTION]: (message, phrase) => {
                 if (!phrase) return null;
-                const id = phrase.match(/<@!?(\d{17,19})>/);
-                if (!id) return null;
-                return this.client.users.cache.get(id[1]) || null;
+                const match = phrase.match(/<@!?(?<id>\d{17,19})>/);
+                return (match && this.client.users.cache.get(match.groups.id)) || null;
             },
 
             [ArgumentTypes.MEMBER_MENTION]: (message, phrase) => {
                 if (!phrase) return null;
-                const id = phrase.match(/<@!?(\d{17,19})>/);
-                if (!id) return null;
-                return message.guild.members.cache.get(id[1]) || null;
+                const match = phrase.match(/<@!?(?<id>\d{17,19})>/);
+                return (match && message.guild.members.cache.get(match.groups.id)) || null;
             },
 
             [ArgumentTypes.CHANNEL_MENTION]: (message, phrase) => {
                 if (!phrase) return null;
-                const id = phrase.match(/<#(\d{17,19})>/);
-                if (!id) return null;
-                return message.guild.channels.cache.get(id[1]) || null;
+                const match = phrase.match(/<#(?<id>\d{17,19})>/);
+                return (match && message.guild.channels.cache.get(match.groups.id)) || null;
             },
 
             [ArgumentTypes.ROLE_MENTION]: (message, phrase) => {
                 if (!phrase) return null;
-                const id = phrase.match(/<@&(\d{17,19})>/);
-                if (!id) return null;
-                return message.guild.roles.cache.get(id[1]) || null;
+                const match = phrase.match(/<@&(?<id>\d{17,19})>/);
+                return (match && message.guild.roles.cache.get(match.groups.id)) || null;
             },
 
             [ArgumentTypes.EMOJI_MENTION]: (message, phrase) => {
                 if (!phrase) return null;
-                const id = phrase.match(/<a?:[a-zA-Z0-9_]+:(\d{17,19})>/);
-                if (!id) return null;
-                return message.guild.emojis.cache.get(id[1]) || null;
+                const match = phrase.match(/<a?:[a-zA-Z0-9_]+:(?<id>\d{17,19})>/);
+                return (match && message.guild.emojis.cache.get(match.groups.id)) || null;
             },
 
             [ArgumentTypes.COMMAND_ALIAS]: (message, phrase) => {
