@@ -102,8 +102,7 @@ class TypeResolver {
             [ArgumentTypes.DATE]: (message, phrase) => {
                 if (!phrase) return null;
                 const timestamp = Date.parse(phrase);
-                if (isNaN(timestamp)) return null;
-                return new Date(timestamp);
+                return isNaN(timestamp) ? null : new Date(timestamp);
             },
 
             [ArgumentTypes.COLOR]: (message, phrase) => {
