@@ -62,9 +62,7 @@ class TypeResolver {
 
             [ArgumentTypes.CHAR_CODES]: (message, phrase) => {
                 if (!phrase) return null;
-                const codes = [];
-                for (const char of phrase) codes.push(char.charCodeAt(0));
-                return codes;
+                return [...phrase].map(c => c.charCodeAt(0));
             },
 
             [ArgumentTypes.NUMBER]: (message, phrase) => {
