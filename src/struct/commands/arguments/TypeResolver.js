@@ -1,5 +1,5 @@
 const { ArgumentTypes } = require('../../../util/Constants');
-const { Collection } = require('discord.js');
+const { Collection, GuildChannel } = require('discord.js');
 const { URL } = require('url');
 
 /**
@@ -141,20 +141,16 @@ class TypeResolver {
             [ArgumentTypes.RELEVANT]: (message, phrase) => {
                 if (!phrase) return null;
 
-                const person = message.channel.type === 'text'
-                    ? this.client.util.resolveMember(phrase, message.guild.members.cache)
-                    : message.channel.type === 'dm'
-                        ? this.client.util.resolveUser(phrase, new Collection([
-                            [message.channel.recipient.id, message.channel.recipient],
-                            [this.client.user.id, this.client.user]
-                        ]))
-                        : this.client.util.resolveUser(phrase, new Collection([
-                            [this.client.user.id, this.client.user]
-                        ]).concat(message.channel.recipients));
+                const person = message.channel.type === 'dm'
+                    ? this.client.util.resolveUser(phrase, new Collection([
+                        [message.channel.recipient.id, message.channel.recipient],
+                        [this.client.user.id, this.client.user]
+                    ]))
+                    : message.channel instanceof GuildChannel
+                        ? this.client.util.resolveMember(phrase, message.guild.members.cache)
+                        : this.client.util.resolveUser(phrase, this.client.users.cache);
 
-                if (!person) return null;
-                if (message.channel.type === 'text') return person.user;
-                return person;
+                return person ? message.channel instanceof GuildChannel ? person.user : person : null;
             },
 
             [ArgumentTypes.RELEVANTS]: (message, phrase) => {
