@@ -2,6 +2,7 @@ const AkairoError = require('../../../util/AkairoError');
 const Argument = require('./Argument');
 const { ArgumentMatches } = require('../../../util/Constants');
 const Flag = require('../Flag');
+const { intoArray } = require('../../../util/Util');
 
 /**
  * Runs arguments.
@@ -209,7 +210,7 @@ class ArgumentRunner {
      * @returns {Promise<Flag|any>}
      */
     runFlag(message, parsed, state, arg) {
-        const names = Array.isArray(arg.flag) ? arg.flag : [arg.flag];
+        const names = intoArray(arg.flag);
         if (arg.multipleFlags) {
             const amount = parsed.flags.filter(flag =>
                 names.some(name =>
@@ -238,7 +239,7 @@ class ArgumentRunner {
      * @returns {Promise<Flag|any>}
      */
     async runOption(message, parsed, state, arg) {
-        const names = Array.isArray(arg.flag) ? arg.flag : [arg.flag];
+        const names = intoArray(arg.flag);
         if (arg.multipleFlags) {
             const values = parsed.optionFlags.filter(flag =>
                 names.some(name =>
