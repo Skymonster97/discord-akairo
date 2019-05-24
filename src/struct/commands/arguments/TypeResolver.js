@@ -326,10 +326,9 @@ class TypeResolver {
 
             [ArgumentTypes.RELEVANT_MESSAGE]: async (message, phrase) => {
                 if (!phrase) return null;
+
                 const hereMsg = await message.channel.messages.fetch(phrase).catch(() => null);
-                if (hereMsg) {
-                    return hereMsg;
-                }
+                if (hereMsg) return hereMsg;
 
                 if (message.guild) {
                     for (const channel of message.guild.channels.cache.values()) {
@@ -337,7 +336,7 @@ class TypeResolver {
                         try {
                             return await channel.messages.fetch(phrase);
                         } catch (err) {
-                            if (/^Invalid Form Body/.test(err.message)) return null;
+                            if (/^Invalid Form Body/.test(err.message)) break;
                         }
                     }
                 }
