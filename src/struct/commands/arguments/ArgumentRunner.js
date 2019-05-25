@@ -327,7 +327,7 @@ class ArgumentRunner {
      * @param {ContentParserResult} parsed - Parsed data from ContentParser.
      * @param {ArgumentRunnerState} state - Argument handling state.
      * @param {number} n - Number of indices to increase by.
-     * @returns {Promise<Flag|any>}
+     * @returns {void}
      */
     static increaseIndex(parsed, state, n = 1) {
         state.phraseIndex += n;

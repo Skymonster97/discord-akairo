@@ -76,7 +76,7 @@ class AkairoHandler extends EventEmitter {
      * Registers a module.
      * @param {AkairoModule} mod - Module to use.
      * @param {string} [filepath] - Filepath of module.
-     * @returns {void}
+     * @returns {AkairoModule}
      */
     register(mod, filepath) {
         mod.filepath = filepath;

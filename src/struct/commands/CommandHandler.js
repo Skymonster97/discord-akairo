@@ -1176,12 +1176,12 @@ module.exports = CommandHandler;
  * A function that returns whether mentions can be used as a prefix.
  * @typedef {Function} MentionPrefixPredicate
  * @param {Message} message - Message to option for.
- * @returns {boolean}
+ * @returns {boolean|Promise<boolean>}
  */
 
 /**
  * A function that returns the prefix(es) to use.
  * @typedef {Function} PrefixSupplier
  * @param {Message} message - Message to get prefix for.
- * @returns {string|string[]}
+ * @returns {string|string[]|Promise<string|string[]>}
  */

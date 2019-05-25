@@ -293,7 +293,7 @@ module.exports = Command;
  * A non-null return value signifies the reason for missing permissions.
  * @typedef {Function} MissingPermissionSupplier
  * @param {Message} message - Message that triggered the command.
- * @returns {any}
+ * @returns {any|Promise<any>}
  */
 
 /**
