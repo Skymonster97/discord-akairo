@@ -642,7 +642,7 @@ module.exports = Argument;
  * @prop {boolean} infinite - Whether the prompt is infinite or not.
  * @prop {Message} message - The message that caused the prompt.
  * @prop {string} phrase - The input phrase that caused the prompt if there was one, otherwise an empty string.
- * @param {void|Flag} failure - The value that failed if there was one, otherwise null.
+ * @prop {void|Flag} failure - The value that failed if there was one, otherwise null.
  */
 
 /**
@@ -758,7 +758,7 @@ module.exports = Argument;
  * Data passed to functions that run when things failed.
  * @typedef {Object} FailureData
  * @prop {string} phrase - The input phrase that failed if there was one, otherwise an empty string.
- * @param {void|Flag} failure - The value that failed if there was one, otherwise null.
+ * @prop {void|Flag} failure - The value that failed if there was one, otherwise null.
  */
 
 /**
