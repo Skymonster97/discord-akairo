@@ -26,7 +26,7 @@ class CommandHandler extends AkairoHandler {
         fetchMembers = false,
         handleEdits = false,
         storeMessages = false,
-        commandUtil,
+        commandUtil = false,
         commandUtilLifetime = 3e5,
         commandUtilSweepInterval = 3e5,
         defaultCooldown = 0,
