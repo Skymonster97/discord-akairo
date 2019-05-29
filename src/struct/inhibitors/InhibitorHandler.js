@@ -94,8 +94,8 @@ class InhibitorHandler extends AkairoHandler {
     /**
      * Loads an inhibitor.
      * @method
-     * @param {string|Inhibitor} thing - Module or path to module.
      * @name InhibitorHandler#load
+     * @param {string|Inhibitor} thing - Module or path to module.
      * @returns {Inhibitor}
      */
 
