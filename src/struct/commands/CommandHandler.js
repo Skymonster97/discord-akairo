@@ -465,7 +465,7 @@ class CommandHandler extends AkairoHandler {
         const hasRegexCommands = [];
         for (const command of this.modules.values()) {
             if (message.edited ? command.editable : true) {
-                const regex = typeof command.regex === 'function' ? command.regex(message) : command.regex;
+                const regex = intoCallable(command.regex)(message);
                 if (regex) hasRegexCommands.push({ command, regex });
             }
         }
