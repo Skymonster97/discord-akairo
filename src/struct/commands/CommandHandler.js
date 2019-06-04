@@ -1143,7 +1143,7 @@ module.exports = CommandHandler;
  * @prop {Snowflake|Snowflake[]|IgnoreCheckPredicate} [ignoreCooldown] - ID of user(s) to ignore cooldown or a function to ignore.
  * Defaults to the client owner(s).
  * @prop {Snowflake|Snowflake[]|IgnoreCheckPredicate} [ignorePermissions=[]] - ID of user(s) to ignore `userPermissions` checks or a function to ignore.
- * @prop {DefaultArgumentOptions} [argumentDefaults] - The default argument options.
+ * @prop {DefaultArgumentOptions} [argumentDefaults={}] - The default argument options.
  */
 
 /**
