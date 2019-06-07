@@ -217,7 +217,8 @@ class Argument {
                 infinite: isInfinite,
                 message: inputMessage,
                 phrase: inputPhrase,
-                failure: inputParsed
+                failure: inputParsed,
+                options: promptOptions
             });
 
             if (Array.isArray(text)) {
@@ -238,7 +239,8 @@ class Argument {
                     infinite: isInfinite,
                     message: inputMessage,
                     phrase: inputPhrase,
-                    failure: inputParsed
+                    failure: inputParsed,
+                    options: promptOptions
                 });
 
                 if (Array.isArray(text)) {
@@ -642,7 +644,8 @@ module.exports = Argument;
  * @prop {boolean} infinite - Whether the prompt is infinite or not.
  * @prop {Message} message - The message that caused the prompt.
  * @prop {string} phrase - The input phrase that caused the prompt if there was one, otherwise an empty string.
- * @param {void|Flag} failure - The value that failed if there was one, otherwise null.
+ * @prop {void|Flag} failure - The value that failed if there was one, otherwise null.
+ * @prop {ArgumentPromptOptions} options - Merged prompt data.
  */
 
 /**

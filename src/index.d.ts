@@ -511,6 +511,7 @@ declare module 'discord-akairo' {
         retries: number;
         phrase: string;
         failure: void | (Flag & { value: any });
+        options: ArgumentPromptOptions;
     }
 
     export interface ArgumentPromptOptions {
