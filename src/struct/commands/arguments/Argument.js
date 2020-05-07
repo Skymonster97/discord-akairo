@@ -742,7 +742,7 @@ module.exports = Argument;
  *
  * A regular expression can also be used.
  * The evaluated argument will be an object containing the `match` and `matches` if global.
- * @typedef {string|string[]} ArgumentType
+ * @typedef {string|string[]|RegExp} ArgumentType
  */
 
 /**
