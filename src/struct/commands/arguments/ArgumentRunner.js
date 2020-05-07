@@ -111,7 +111,7 @@ class ArgumentRunner {
      */
     async runPhrase(message, parsed, state, arg) {
         if (arg.unordered || arg.unordered === 0) {
-            const indices = typeof unordered === 'number'
+            const indices = typeof arg.unordered === 'number'
                 ? Array.from(parsed.phrases.keys()).slice(arg.unordered)
                 : Array.isArray(arg.unordered)
                     ? arg.unordered
