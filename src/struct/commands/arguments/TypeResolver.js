@@ -453,7 +453,7 @@ class TypeResolver {
 
     /**
      * Adds multiple new types.
-     * @param {Object} types  - Object with keys as the type name and values as the cast function.
+     * @param {Object} types - Object with keys as the type name and values as the cast function.
      * @returns {TypeResolver}
      */
     addTypes(types) {
