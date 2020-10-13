@@ -283,6 +283,6 @@ module.exports = AkairoHandler;
  * Function for filtering files when loading.
  * True means the file should be loaded.
  * @typedef {Function} LoadPredicate
- * @param {String} filepath - Filepath of file.
+ * @param {string} filepath - Filepath of file.
  * @returns {boolean}
 */
