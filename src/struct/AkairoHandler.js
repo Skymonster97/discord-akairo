@@ -285,4 +285,4 @@ module.exports = AkairoHandler;
  * @typedef {Function} LoadPredicate
  * @param {string} filepath - Filepath of file.
  * @returns {boolean}
-*/
+ */

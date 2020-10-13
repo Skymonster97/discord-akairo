@@ -34,7 +34,7 @@ class CommandUtil {
         /**
           * The last response sent.
           * @type {?Message}
-         */
+          */
         this.lastResponse = null;
 
         if (this.handler.storeMessages) {
