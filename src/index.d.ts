@@ -659,7 +659,7 @@ declare module 'discord-akairo' {
 
     export type ArgumentGenerator = (message: Message, parsed: ContentParserResult, state: ArgumentRunnerState) => IterableIterator<ArgumentOptions | Flag>;
 
-    export type ArgumentTypeCaster = (message: Message, phrase: string) => any;
+    export type ArgumentTypeCaster = (message: Message, phrase: string) => Promise<any>;
 
     export type BeforeAction = (message: Message) => any;
 
