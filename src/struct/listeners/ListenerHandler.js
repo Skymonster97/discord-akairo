@@ -58,7 +58,7 @@ class ListenerHandler extends AkairoHandler {
      * @returns {Listener}
      */
     register(listener, filepath) {
-        super.register(listener, filepath);
+        listener = super.register(listener, filepath);
         listener.exec = listener.exec.bind(listener);
         this.addToEmitter(listener.id);
         return listener;

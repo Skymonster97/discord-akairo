@@ -96,6 +96,7 @@ class AkairoHandler extends EventEmitter {
         const category = this.categories.get(mod.categoryID);
         mod.category = category;
         category.set(mod.id, mod);
+        return mod;
     }
 
     /**

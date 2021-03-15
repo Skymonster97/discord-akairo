@@ -242,10 +242,10 @@ class CommandHandler extends AkairoHandler {
      * Registers a module.
      * @param {Command} command - Module to use.
      * @param {string} [filepath] - Filepath of module.
-     * @returns {void}
+     * @returns {Command}
      */
     register(command, filepath) {
-        super.register(command, filepath);
+        command = super.register(command, filepath);
 
         for (let alias of command.aliases) {
             const conflict = this.aliases.get(alias.toLowerCase());
@@ -291,6 +291,8 @@ class CommandHandler extends AkairoHandler {
                 this.prefixes = this.prefixes.sort((aVal, bVal, aKey, bKey) => prefixCompare(aKey, bKey));
             }
         }
+
+        return command;
     }
 
     /**

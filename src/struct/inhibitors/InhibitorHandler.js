@@ -88,7 +88,7 @@ class InhibitorHandler extends AkairoHandler {
      * @name InhibitorHandler#register
      * @param {Inhibitor} inhibitor - Module to use.
      * @param {string} [filepath] - Filepath of module.
-     * @returns {void}
+     * @returns {Inhibitor}
      */
 
     /**

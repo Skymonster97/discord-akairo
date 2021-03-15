@@ -46,7 +46,7 @@ declare module 'discord-akairo' {
         public findCategory(name: string): Category<string, AkairoModule>;
         public load(thing: string | Function, isReload?: boolean): AkairoModule;
         public loadAll(directory?: string, filter?: LoadPredicate): this;
-        public register(mod: AkairoModule, filepath?: string): void;
+        public register(mod: AkairoModule, filepath?: string): AkairoModule;
         public reload(id: string): AkairoModule;
         public reloadAll(): this;
         public remove(id: string): AkairoModule;
@@ -229,7 +229,7 @@ declare module 'discord-akairo' {
         public parseCommandOverwrittenPrefixes(message: Message): Promise<ParsedComponentData>;
         public parseMultiplePrefixes(message: Message, prefixes: [string, Set<string> | null]): ParsedComponentData;
         public parseWithPrefix(message: Message, prefix: string, associatedCommands?: Set<string>): ParsedComponentData;
-        public register(command: Command, filepath?: string): void;
+        public register(command: Command, filepath?: string): Command;
         public reload(id: string): Command;
         public reloadAll(): this;
         public remove(id: string): Command;
@@ -340,7 +340,7 @@ declare module 'discord-akairo' {
         public findCategory(name: string): Category<string, Inhibitor>;
         public load(thing: string | Function): Inhibitor;
         public loadAll(directory?: string, filter?: LoadPredicate): this;
-        public register(inhibitor: Inhibitor, filepath?: string): void;
+        public register(inhibitor: Inhibitor, filepath?: string): Inhibitor;
         public reload(id: string): Inhibitor;
         public reloadAll(): this;
         public remove(id: string): Inhibitor;
@@ -382,7 +382,7 @@ declare module 'discord-akairo' {
         public findCategory(name: string): Category<string, Listener>;
         public load(thing: string | Function): Listener;
         public loadAll(directory?: string, filter?: LoadPredicate): this;
-        public register(listener: Listener, filepath?: string): void;
+        public register(listener: Listener, filepath?: string): Listener;
         public reload(id: string): Listener;
         public reloadAll(): this;
         public remove(id: string): Listener;
