@@ -84,7 +84,7 @@ declare module 'discord-akairo' {
         public multipleFlags: boolean;
         public flag?: string | string[];
         public otherwise?: StringResolvable | MessageOptions | MessageAdditions | OtherwiseContentSupplier;
-        public prompt?: ArgumentPromptOptions | boolean;
+        public prompt?: ArgumentPromptOptions;
         public type: ArgumentType | ArgumentTypeCaster;
         public unordered: boolean | number | number[];
 
@@ -500,7 +500,7 @@ declare module 'discord-akairo' {
         multipleFlags?: boolean;
         flag?: string | string[];
         otherwise?: StringResolvable | MessageOptions | MessageAdditions | OtherwiseContentSupplier;
-        prompt?: ArgumentPromptOptions | boolean;
+        prompt?: ArgumentPromptOptions;
         type?: ArgumentType | ArgumentTypeCaster;
         unordered?: boolean | number | number[];
     }
