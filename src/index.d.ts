@@ -398,7 +398,7 @@ declare module 'discord-akairo' {
 
         public abstract clear(id: string): any;
         public abstract delete(id: string, key: string): any;
-        public abstract get(id: string, key: string, defaultValue: any): any;
+        public abstract get(id: string, key: string, defaultValue?: any): any;
         public abstract init(): any;
         public abstract set(id: string, key: string, value: any): any;
     }
@@ -413,7 +413,7 @@ declare module 'discord-akairo' {
 
         public clear(id: string): Promise<void>;
         public delete(id: string, key: string): Promise<boolean>;
-        public get(id: string, key: string, defaultValue: any): any;
+        public get(id: string, key: string, defaultValue?: any): any;
         public init(): Promise<void>;
         public set(id: string, key: string, value: any): Promise<boolean>;
     }
@@ -429,7 +429,7 @@ declare module 'discord-akairo' {
 
         public clear(id: string): Promise<any>;
         public delete(id: string, key: string): Promise<any>;
-        public get(id: string, key: string, defaultValue: any): any;
+        public get(id: string, key: string, defaultValue?: any): any;
         public init(): Promise<void>;
         public set(id: string, key: string, value: any): Promise<any>;
     }
@@ -442,7 +442,7 @@ declare module 'discord-akairo' {
 
         public clear(id: string): Promise<any>;
         public delete(id: string, key: string): Promise<any>;
-        public get(id: string, key: string, defaultValue: any): any;
+        public get(id: string, key: string, defaultValue?: any): any;
         public getDocument(id: string): any;
         public init(): Promise<void>;
         public set(id: string, key: string, value: any): Promise<any>;
