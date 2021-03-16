@@ -212,7 +212,7 @@ class Tokenizer {
 
         const wordMatch = this.match(wordRegex);
         if (wordMatch) {
-            if (this.separator) {
+            if (this.separator != null) {
                 if (wordMatch[0].toLowerCase() === this.separator.toLowerCase()) {
                     return false;
                 }
