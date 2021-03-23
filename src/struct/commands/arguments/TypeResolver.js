@@ -219,12 +219,9 @@ class TypeResolver {
 
             [ArgumentTypes.CATEGORY_CHANNELS]: (message, phrase) => {
                 if (!phrase) return null;
-
-                const channels = this.client.util.resolveChannels(phrase, message.guild.channels.cache);
-                if (!channels.size) return null;
-
-                const categoryChannels = channels.filter(c => c.type === 'category');
-                return categoryChannels.size ? categoryChannels : null;
+                const categoryChannels = message.guild.channels.cache.filter(c => c.type === 'category');
+                const channels = this.client.util.resolveChannels(phrase, categoryChannels);
+                return channels.size ? channels : null;
             },
 
             [ArgumentTypes.NEWS_CHANNEL]: (message, phrase) => {
