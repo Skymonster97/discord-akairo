@@ -247,12 +247,9 @@ class TypeResolver {
 
             [ArgumentTypes.STORE_CHANNELS]: (message, phrase) => {
                 if (!phrase) return null;
-
-                const channels = this.client.util.resolveChannels(phrase, message.guild.channels.cache);
-                if (!channels.size) return null;
-
-                const storeChannels = channels.filter(c => c.type === 'store');
-                return storeChannels.size ? storeChannels : null;
+                const storeChannels = message.guild.channels.cache.filter(c => c.type === 'store');
+                const channels = this.client.util.resolveChannels(phrase, storeChannels);
+                return channels.size ? channels : null;
             },
 
             [ArgumentTypes.ROLE]: (message, phrase) => {
