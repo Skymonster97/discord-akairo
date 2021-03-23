@@ -191,12 +191,9 @@ class TypeResolver {
 
             [ArgumentTypes.TEXT_CHANNELS]: (message, phrase) => {
                 if (!phrase) return null;
-
-                const channels = this.client.util.resolveChannels(phrase, message.guild.channels.cache);
-                if (!channels.size) return null;
-
-                const textChannels = channels.filter(c => c.type === 'text');
-                return textChannels.size ? textChannels : null;
+                const textChannels = message.guild.channels.cache.filter(c => c.type === 'text');
+                const channels = this.client.util.resolveChannels(phrase, textChannels);
+                return channels.size ? channels : null;
             },
 
             [ArgumentTypes.VOICE_CHANNEL]: (message, phrase) => {
