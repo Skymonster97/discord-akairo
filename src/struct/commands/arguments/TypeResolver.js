@@ -156,24 +156,19 @@ class TypeResolver {
             [ArgumentTypes.RELEVANTS]: (message, phrase) => {
                 if (!phrase) return null;
 
-                const persons = message.channel.type === 'text'
-                    ? this.client.util.resolveMembers(phrase, message.guild.members.cache)
-                    : message.channel.type === 'dm'
-                        ? this.client.util.resolveUsers(phrase, new Collection([
-                            [message.channel.recipient.id, message.channel.recipient],
-                            [this.client.user.id, this.client.user]
-                        ]))
-                        : this.client.util.resolveUsers(phrase, new Collection([
-                            [this.client.user.id, this.client.user]
-                        ]).concat(message.channel.recipients));
+                const persons = message.channel.type === 'dm'
+                    ? this.client.util.resolveUsers(phrase, new Collection([
+                        [message.channel.recipient.id, message.channel.recipient],
+                        [this.client.user.id, this.client.user]
+                    ]))
+                    : message.channel instanceof GuildChannel
+                        ? this.client.util.resolveMembers(phrase, message.guild.members.cache)
+                        : this.client.util.resolveUsers(phrase, this.client.users.cache);
 
-                if (!persons.size) return null;
-
-                if (message.channel.type === 'text') {
-                    return persons.map(member => member.user);
-                }
-
-                return persons;
+                return persons.size
+                    ? message.channel instanceof GuildChannel
+                        ? new Collection(persons.map(member => [member.id, member.user]))
+                        : persons : null;
             },
 
             [ArgumentTypes.CHANNEL]: (message, phrase) => {
