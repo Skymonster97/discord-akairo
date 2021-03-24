@@ -320,13 +320,7 @@ class ClientUtil {
      * @returns {string[]}
      */
     resolvePermissionNumber(number) {
-        const resolved = [];
-
-        for (const key of Object.keys(Permissions.FLAGS)) {
-            if (number & Permissions.FLAGS[key]) resolved.push(key);
-        }
-
-        return resolved;
+        return Object.keys(Permissions.FLAGS).filter(key => number & Permissions.FLAGS[key]);
     }
 
     /**
