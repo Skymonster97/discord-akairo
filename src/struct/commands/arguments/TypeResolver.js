@@ -356,7 +356,7 @@ class TypeResolver {
 
             [ArgumentTypes.EMOJI_MENTION]: (message, phrase) => {
                 if (!phrase) return null;
-                const match = phrase.match(/<a?:[a-zA-Z0-9_]+:(?<id>\d{17,19})>/);
+                const match = phrase.match(/<a?:\w+:(?<id>\d{17,19})>/);
                 return (match && message.guild.emojis.cache.get(match.groups.id)) || null;
             },
 
