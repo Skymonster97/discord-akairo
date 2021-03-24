@@ -303,8 +303,7 @@ class ClientUtil {
         text = caseSensitive ? text : text.toLowerCase();
         const name = caseSensitive ? guild.name : guild.name.toLowerCase();
 
-        if (!wholeWord) return name.includes(text);
-        return name === text;
+        return wholeWord ? name === text : name.includes(text);
     }
 
     /**
