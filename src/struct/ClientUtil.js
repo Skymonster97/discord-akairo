@@ -204,21 +204,17 @@ class ClientUtil {
     checkRole(text, role, caseSensitive = false, wholeWord = false) {
         if (role.id === text) return true;
 
-        const reg = /<@&(\d{17,19})>/;
-        const match = text.match(reg);
-
-        if (match && role.id === match[1]) return true;
+        const reg = new RegExp(`<@&${role.id}>`);
+        if (reg.test(text)) return true;
 
         text = caseSensitive ? text : text.toLowerCase();
         const name = caseSensitive ? role.name : role.name.toLowerCase();
 
         if (!wholeWord) {
-            return name.includes(text)
-            || name.includes(text.replace(/^@/, ''));
+            return name.includes(text) || name.includes(text.replace(/^@/, ''));
         }
 
-        return name === text
-        || name === text.replace(/^@/, '');
+        return name === text || name === text.replace(/^@/, '');
     }
 
     /**
