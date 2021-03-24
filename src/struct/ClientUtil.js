@@ -48,22 +48,21 @@ class ClientUtil {
     checkUser(text, user, caseSensitive = false, wholeWord = false) {
         if (user.id === text) return true;
 
-        const reg = /<@!?(\d{17,19})>/;
-        const match = text.match(reg);
-
-        if (match && user.id === match[1]) return true;
+        const reg = new RegExp(`<@!?${user.id}>`);
+        if (reg.test(text)) return true;
 
         text = caseSensitive ? text : text.toLowerCase();
-        const username = caseSensitive ? user.username : user.username.toLowerCase();
-        const discrim = user.discriminator;
+        const [name, discrim] = text.split('#').filter(a => a);
+
+        let { username, discriminator } = user;
+        username = caseSensitive ? username : username.toLowerCase();
 
         if (!wholeWord) {
             return username.includes(text)
-            || (username.includes(text.split('#')[0]) && discrim.includes(text.split('#')[1]));
+            || (username.includes(name) && discriminator.includes(discrim));
         }
 
-        return username === text
-        || (username === text.split('#')[0] && discrim === text.split('#')[1]);
+        return username === text || (username === name && discriminator === discrim);
     }
 
     /**
