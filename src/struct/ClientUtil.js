@@ -252,21 +252,17 @@ class ClientUtil {
     checkEmoji(text, emoji, caseSensitive = false, wholeWord = false) {
         if (emoji.id === text) return true;
 
-        const reg = /<a?:[a-zA-Z0-9_]+:(\d{17,19})>/;
-        const match = text.match(reg);
-
-        if (match && emoji.id === match[1]) return true;
+        const reg = new RegExp(`<a?:\\w+:${emoji.id}>`);
+        if (reg.test(text)) return true;
 
         text = caseSensitive ? text : text.toLowerCase();
         const name = caseSensitive ? emoji.name : emoji.name.toLowerCase();
 
         if (!wholeWord) {
-            return name.includes(text)
-            || name.includes(text.replace(/:/, ''));
+            return name.includes(text) || name.includes(text.replace(/:/, ''));
         }
 
-        return name === text
-        || name === text.replace(/:/, '');
+        return name === text || name === text.replace(/:/, '');
     }
 
     /**
