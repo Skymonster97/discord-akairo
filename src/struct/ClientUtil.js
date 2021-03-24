@@ -100,25 +100,25 @@ class ClientUtil {
     checkMember(text, member, caseSensitive = false, wholeWord = false) {
         if (member.id === text) return true;
 
-        const reg = /<@!?(\d{17,19})>/;
-        const match = text.match(reg);
-
-        if (match && member.id === match[1]) return true;
+        const reg = new RegExp(`<@!?${member.id}>`);
+        if (reg.test(text)) return true;
 
         text = caseSensitive ? text : text.toLowerCase();
-        const username = caseSensitive ? member.user.username : member.user.username.toLowerCase();
-        const displayName = caseSensitive ? member.displayName : member.displayName.toLowerCase();
-        const discrim = member.user.discriminator;
+        const [name, discrim] = text.split('#').filter(a => a);
+
+        let { user: { username, discriminator }, displayName } = member;
+        username = caseSensitive ? username : username.toLowerCase();
+        displayName = caseSensitive ? displayName : displayName.toLowerCase();
 
         if (!wholeWord) {
             return displayName.includes(text)
             || username.includes(text)
-            || ((username.includes(text.split('#')[0]) || displayName.includes(text.split('#')[0])) && discrim.includes(text.split('#')[1]));
+            || ((username.includes(name) || displayName.includes(name)) && discriminator.includes(discrim));
         }
 
         return displayName === text
         || username === text
-        || ((username === text.split('#')[0] || displayName === text.split('#')[0]) && discrim === text.split('#')[1]);
+        || ((username === name || displayName === name) && discriminator === discrim);
     }
 
     /**
