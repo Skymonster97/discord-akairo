@@ -49,7 +49,7 @@ class Argument {
          * Whether to process multiple option flags instead of just the first.
          * @type {boolean}
          */
-        this.multipleFlags = Boolean(multipleFlags);
+        this.multipleFlags = multipleFlags;
 
         /**
          * The index to start from.
@@ -217,7 +217,8 @@ class Argument {
                 infinite: isInfinite,
                 message: inputMessage,
                 phrase: inputPhrase,
-                failure: inputParsed
+                failure: inputParsed,
+                options: promptOptions
             });
 
             if (Array.isArray(text)) {
@@ -238,7 +239,8 @@ class Argument {
                     infinite: isInfinite,
                     message: inputMessage,
                     phrase: inputPhrase,
-                    failure: inputParsed
+                    failure: inputParsed,
+                    options: promptOptions
                 });
 
                 if (Array.isArray(text)) {
@@ -643,6 +645,7 @@ module.exports = Argument;
  * @prop {Message} message - The message that caused the prompt.
  * @prop {string} phrase - The input phrase that caused the prompt if there was one, otherwise an empty string.
  * @prop {void|Flag} failure - The value that failed if there was one, otherwise null.
+ * @prop {ArgumentPromptOptions} options - Merged prompt data.
  */
 
 /**
@@ -742,7 +745,18 @@ module.exports = Argument;
  *
  * A regular expression can also be used.
  * The evaluated argument will be an object containing the `match` and `matches` if global.
- * @typedef {string|string[]|RegExp} ArgumentType
+ * @typedef {string|string[]} ArgumentType
+ */
+
+/**
+ * A function for processing user input to use as an argument.
+ * A void return value will use the default value for the argument or start a prompt.
+ * Any other truthy return value will be used as the evaluated argument.
+ * If returning a Promise, the resolved value will go through the above steps.
+ * @typedef {Function} ArgumentTypeCaster
+ * @param {Message} message - Message that triggered the command.
+ * @param {string} phrase - The user input.
+ * @returns {any}
  */
 
 /**
@@ -750,15 +764,15 @@ module.exports = Argument;
  * This is mainly used in composing argument types.
  * @typedef {Function} ArgumentTypeCaster
  * @param {Message} message - Message that triggered the command.
- * @param {string} phrase - The user input.
- * @returns {Promise<any>}
+ * @param {any} value - Some value.
+ * @returns {any}
  */
 
 /**
  * Data passed to functions that run when things failed.
  * @typedef {Object} FailureData
  * @prop {string} phrase - The input phrase that failed if there was one, otherwise an empty string.
- * @prop {void|Flag} failure - The value that failed if there was one, otherwise null.
+ * @param {void|Flag} failure - The value that failed if there was one, otherwise null.
  */
 
 /**

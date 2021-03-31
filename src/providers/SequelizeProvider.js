@@ -31,13 +31,16 @@ class SequelizeProvider extends Provider {
 
     /**
      * Initializes the provider.
-     * @returns {Bluebird<void>}
+     * @returns {Bluebird<SequelizeProvider>}
      */
     async init() {
         const rows = await this.table.findAll();
+
         for (const row of rows) {
             this.items.set(row[this.idColumn], this.dataColumn ? row[this.dataColumn] : row);
         }
+
+        return this;
     }
 
     /**

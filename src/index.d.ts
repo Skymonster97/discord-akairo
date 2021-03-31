@@ -414,7 +414,7 @@ declare module 'discord-akairo' {
         public clear(id: string): Promise<void>;
         public delete(id: string, key: string): Promise<boolean>;
         public get(id: string, key: string, defaultValue?: any): any;
-        public init(): Promise<void>;
+        public init(): Promise<SequelizeProvider>;
         public set(id: string, key: string, value: any): Promise<boolean>;
     }
 
@@ -430,7 +430,7 @@ declare module 'discord-akairo' {
         public clear(id: string): Promise<any>;
         public delete(id: string, key: string): Promise<any>;
         public get(id: string, key: string, defaultValue?: any): any;
-        public init(): Promise<void>;
+        public init(): Promise<SQLiteProvider>;
         public set(id: string, key: string, value: any): Promise<any>;
     }
 
@@ -511,6 +511,7 @@ declare module 'discord-akairo' {
         retries: number;
         phrase: string;
         failure: void | (Flag & { value: any });
+        options: ArgumentPromptOptions;
     }
 
     export interface ArgumentPromptOptions {
