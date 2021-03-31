@@ -47,8 +47,8 @@ const { ArgumentMatches } = require('../../util/Constants');
  *
  * FlagWord = Given
  * OptionFlagWord = Given
- * Seperator = Given
- * Word = /^\S+/ (and not in FlagWord or OptionFlagWord or equal to Seperator)
+ * Separator = Given
+ * Word = /^\S+/ (and not in FlagWord or OptionFlagWord or equal to Separator)
  * WS = /^\s+/
  * EOF = /^$/
  */
@@ -212,7 +212,7 @@ class Tokenizer {
 
         const wordMatch = this.match(wordRegex);
         if (wordMatch) {
-            if (this.separator) {
+            if (this.separator != null) {
                 if (wordMatch[0].toLowerCase() === this.separator.toLowerCase()) {
                     return false;
                 }

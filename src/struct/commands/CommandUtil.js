@@ -32,8 +32,8 @@ class CommandUtil {
         this.shouldEdit = false;
 
         /**
-          * The last response sent.
-          * @type {?Message}
+         * The last response sent.
+         * @type {?Message}
          */
         this.lastResponse = null;
 

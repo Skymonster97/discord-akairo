@@ -246,11 +246,11 @@ module.exports = Command;
  * @prop {string} [separator] - Custom separator for argument input.
  * @prop {string[]} [flags=[]] - Flags to use when using an ArgumentGenerator.
  * @prop {string[]} [optionFlags=[]] - Option flags to use when using an ArgumentGenerator.
- * @prop {string} [channel] - Restricts channel to either 'guild' or 'dm'.
+ * @prop {string} [channel=null] - Restricts channel to either 'guild' or 'dm'.
  * @prop {boolean} [ownerOnly=false] - Whether or not to allow client owner(s) only.
  * @prop {boolean} [typing=false] - Whether or not to type in channel during execution.
  * @prop {boolean} [editable=true] - Whether or not message edits will run this command.
- * @prop {number} [cooldown] - The command cooldown in milliseconds.
+ * @prop {number} [cooldown=null] - The command cooldown in milliseconds.
  * @prop {number} [ratelimit=1] - Amount of command uses allowed until cooldown.
  * @prop {string|string[]|PrefixSupplier} [prefix] - The prefix(es) to overwrite the global one for this command.
  * @prop {PermissionResolvable|PermissionResolvable[]|MissingPermissionSupplier} [userPermissions] - Permissions required by the user to run this command.
@@ -262,7 +262,7 @@ module.exports = Command;
  * @prop {KeySupplier|string} [lock] - The key type or key generator for the locker. If lock is a string, it's expected one of 'guild', 'channel', or 'user'.
  * @prop {Snowflake|Snowflake[]|IgnoreCheckPredicate} [ignoreCooldown] - ID of user(s) to ignore cooldown or a function to ignore.
  * @prop {Snowflake|Snowflake[]|IgnoreCheckPredicate} [ignorePermissions] - ID of user(s) to ignore `userPermissions` checks or a function to ignore.
- * @prop {DefaultArgumentOptions} [argumentDefaults] - The default argument options.
+ * @prop {DefaultArgumentOptions} [argumentDefaults={}] - The default argument options.
  * @prop {StringResolvable} [description=''] - Description of the command.
  */
 
@@ -293,7 +293,7 @@ module.exports = Command;
  * A non-null return value signifies the reason for missing permissions.
  * @typedef {Function} MissingPermissionSupplier
  * @param {Message} message - Message that triggered the command.
- * @returns {any}
+ * @returns {any|Promise<any>}
  */
 
 /**

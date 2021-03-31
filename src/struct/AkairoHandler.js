@@ -76,7 +76,7 @@ class AkairoHandler extends EventEmitter {
      * Registers a module.
      * @param {AkairoModule} mod - Module to use.
      * @param {string} [filepath] - Filepath of module.
-     * @returns {void}
+     * @returns {AkairoModule}
      */
     register(mod, filepath) {
         mod.filepath = filepath;
@@ -96,6 +96,7 @@ class AkairoHandler extends EventEmitter {
         const category = this.categories.get(mod.categoryID);
         mod.category = category;
         category.set(mod.id, mod);
+        return mod;
     }
 
     /**
@@ -283,6 +284,6 @@ module.exports = AkairoHandler;
  * Function for filtering files when loading.
  * True means the file should be loaded.
  * @typedef {Function} LoadPredicate
- * @param {String} filepath - Filepath of file.
+ * @param {string} filepath - Filepath of file.
  * @returns {boolean}
-*/
+ */

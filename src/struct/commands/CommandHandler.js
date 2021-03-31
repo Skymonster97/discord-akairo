@@ -26,7 +26,7 @@ class CommandHandler extends AkairoHandler {
         fetchMembers = false,
         handleEdits = false,
         storeMessages = false,
-        commandUtil,
+        commandUtil = false,
         commandUtilLifetime = 3e5,
         commandUtilSweepInterval = 3e5,
         defaultCooldown = 0,
@@ -242,10 +242,10 @@ class CommandHandler extends AkairoHandler {
      * Registers a module.
      * @param {Command} command - Module to use.
      * @param {string} [filepath] - Filepath of module.
-     * @returns {void}
+     * @returns {Command}
      */
     register(command, filepath) {
-        super.register(command, filepath);
+        command = super.register(command, filepath);
 
         for (let alias of command.aliases) {
             const conflict = this.aliases.get(alias.toLowerCase());
@@ -291,6 +291,8 @@ class CommandHandler extends AkairoHandler {
                 this.prefixes = this.prefixes.sort((aVal, bVal, aKey, bKey) => prefixCompare(aKey, bKey));
             }
         }
+
+        return command;
     }
 
     /**
@@ -465,7 +467,7 @@ class CommandHandler extends AkairoHandler {
         const hasRegexCommands = [];
         for (const command of this.modules.values()) {
             if (message.edited ? command.editable : true) {
-                const regex = typeof command.regex === 'function' ? command.regex(message) : command.regex;
+                const regex = intoCallable(command.regex)(message);
                 if (regex) hasRegexCommands.push({ command, regex });
             }
         }
@@ -781,7 +783,7 @@ class CommandHandler extends AkairoHandler {
      */
     async parseCommand(message) {
         let prefixes = intoArray(await intoCallable(this.prefix)(message));
-        const allowMention = await intoCallable(this.prefix)(message);
+        const allowMention = await intoCallable(this.allowMention)(message);
         if (allowMention) {
             const mentions = [`<@${this.client.user.id}>`, `<@!${this.client.user.id}>`];
             prefixes = [...mentions, ...prefixes];
@@ -853,20 +855,21 @@ class CommandHandler extends AkairoHandler {
         const command = this.findCommand(alias);
         const content = message.content.slice(startOfArgs + alias.length + 1).trim();
         const afterPrefix = message.content.slice(prefix.length).trim();
+        const data = { prefix, alias, content, afterPrefix };
 
         if (!command) {
-            return { prefix, alias, content, afterPrefix };
+            return data;
         }
 
         if (associatedCommands == null) {
             if (command.prefix != null) {
-                return { prefix, alias, content, afterPrefix };
+                return data;
             }
         } else if (!associatedCommands.has(command.id)) {
-            return { prefix, alias, content, afterPrefix };
+            return data;
         }
 
-        return { command, prefix, alias, content, afterPrefix };
+        return { command, ...data };
     }
 
     /**
@@ -1042,13 +1045,6 @@ module.exports = CommandHandler;
  */
 
 /**
- * Emitted when a command is found disabled.
- * @event CommandHandler#commandDisabled
- * @param {Message} message - Message sent.
- * @param {Command} command - Command found.
- */
-
-/**
  * Emitted when a command is blocked by a post-message inhibitor.
  * The built-in inhibitors are 'owner', 'guild', and 'dm'.
  * @event CommandHandler#commandBlocked
@@ -1150,7 +1146,7 @@ module.exports = CommandHandler;
  * @prop {Snowflake|Snowflake[]|IgnoreCheckPredicate} [ignoreCooldown] - ID of user(s) to ignore cooldown or a function to ignore.
  * Defaults to the client owner(s).
  * @prop {Snowflake|Snowflake[]|IgnoreCheckPredicate} [ignorePermissions=[]] - ID of user(s) to ignore `userPermissions` checks or a function to ignore.
- * @prop {DefaultArgumentOptions} [argumentDefaults] - The default argument options.
+ * @prop {DefaultArgumentOptions} [argumentDefaults={}] - The default argument options.
  */
 
 /**
@@ -1183,12 +1179,12 @@ module.exports = CommandHandler;
  * A function that returns whether mentions can be used as a prefix.
  * @typedef {Function} MentionPrefixPredicate
  * @param {Message} message - Message to option for.
- * @returns {boolean}
+ * @returns {boolean|Promise<boolean>}
  */
 
 /**
  * A function that returns the prefix(es) to use.
  * @typedef {Function} PrefixSupplier
  * @param {Message} message - Message to get prefix for.
- * @returns {string|string[]}
+ * @returns {string|string[]|Promise<string|string[]>}
  */

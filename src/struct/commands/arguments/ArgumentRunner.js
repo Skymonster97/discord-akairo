@@ -2,6 +2,7 @@ const AkairoError = require('../../../util/AkairoError');
 const Argument = require('./Argument');
 const { ArgumentMatches } = require('../../../util/Constants');
 const Flag = require('../Flag');
+const { intoArray } = require('../../../util/Util');
 
 /**
  * Runs arguments.
@@ -110,7 +111,7 @@ class ArgumentRunner {
      */
     async runPhrase(message, parsed, state, arg) {
         if (arg.unordered || arg.unordered === 0) {
-            const indices = typeof unordered === 'number'
+            const indices = typeof arg.unordered === 'number'
                 ? Array.from(parsed.phrases.keys()).slice(arg.unordered)
                 : Array.isArray(arg.unordered)
                     ? arg.unordered
@@ -209,7 +210,7 @@ class ArgumentRunner {
      * @returns {Promise<Flag|any>}
      */
     runFlag(message, parsed, state, arg) {
-        const names = Array.isArray(arg.flag) ? arg.flag : [arg.flag];
+        const names = intoArray(arg.flag);
         if (arg.multipleFlags) {
             const amount = parsed.flags.filter(flag =>
                 names.some(name =>
@@ -238,7 +239,7 @@ class ArgumentRunner {
      * @returns {Promise<Flag|any>}
      */
     async runOption(message, parsed, state, arg) {
-        const names = Array.isArray(arg.flag) ? arg.flag : [arg.flag];
+        const names = intoArray(arg.flag);
         if (arg.multipleFlags) {
             const values = parsed.optionFlags.filter(flag =>
                 names.some(name =>
@@ -327,7 +328,7 @@ class ArgumentRunner {
      * @param {ContentParserResult} parsed - Parsed data from ContentParser.
      * @param {ArgumentRunnerState} state - Argument handling state.
      * @param {number} n - Number of indices to increase by.
-     * @returns {Promise<Flag|any>}
+     * @returns {void}
      */
     static increaseIndex(parsed, state, n = 1) {
         state.phraseIndex += n;

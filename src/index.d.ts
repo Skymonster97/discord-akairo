@@ -46,7 +46,7 @@ declare module 'discord-akairo' {
         public findCategory(name: string): Category<string, AkairoModule>;
         public load(thing: string | Function, isReload?: boolean): AkairoModule;
         public loadAll(directory?: string, filter?: LoadPredicate): this;
-        public register(mod: AkairoModule, filepath?: string): void;
+        public register(mod: AkairoModule, filepath?: string): AkairoModule;
         public reload(id: string): AkairoModule;
         public reloadAll(): this;
         public remove(id: string): AkairoModule;
@@ -77,7 +77,6 @@ declare module 'discord-akairo' {
         public readonly client: AkairoClient;
         public command: Command;
         public default: DefaultValueSupplier | any;
-        public description: string | any;
         public readonly handler: CommandHandler;
         public index?: number;
         public limit: number;
@@ -85,11 +84,10 @@ declare module 'discord-akairo' {
         public multipleFlags: boolean;
         public flag?: string | string[];
         public otherwise?: StringResolvable | MessageOptions | MessageAdditions | OtherwiseContentSupplier;
-        public prompt?: ArgumentPromptOptions | boolean;
+        public prompt?: ArgumentPromptOptions;
         public type: ArgumentType | ArgumentTypeCaster;
         public unordered: boolean | number | number[];
 
-        public allow(message: Message): boolean;
         public cast(message: Message, phrase: string): Promise<any>;
         public collect(message: Message, commandInput?: string): Promise<Flag | any>;
         public process(message: Message, phrase: string): Promise<any>;
@@ -153,7 +151,6 @@ declare module 'discord-akairo' {
 
         public aliases: string[];
         public argumentDefaults: DefaultArgumentOptions;
-        public quoted: boolean;
         public category: Category<string, Command>;
         public channel?: string;
         public client: AkairoClient;
@@ -232,7 +229,7 @@ declare module 'discord-akairo' {
         public parseCommandOverwrittenPrefixes(message: Message): Promise<ParsedComponentData>;
         public parseMultiplePrefixes(message: Message, prefixes: [string, Set<string> | null]): ParsedComponentData;
         public parseWithPrefix(message: Message, prefix: string, associatedCommands?: Set<string>): ParsedComponentData;
-        public register(command: Command, filepath?: string): void;
+        public register(command: Command, filepath?: string): Command;
         public reload(id: string): Command;
         public reloadAll(): this;
         public remove(id: string): Command;
@@ -343,7 +340,7 @@ declare module 'discord-akairo' {
         public findCategory(name: string): Category<string, Inhibitor>;
         public load(thing: string | Function): Inhibitor;
         public loadAll(directory?: string, filter?: LoadPredicate): this;
-        public register(inhibitor: Inhibitor, filepath?: string): void;
+        public register(inhibitor: Inhibitor, filepath?: string): Inhibitor;
         public reload(id: string): Inhibitor;
         public reloadAll(): this;
         public remove(id: string): Inhibitor;
@@ -385,7 +382,7 @@ declare module 'discord-akairo' {
         public findCategory(name: string): Category<string, Listener>;
         public load(thing: string | Function): Listener;
         public loadAll(directory?: string, filter?: LoadPredicate): this;
-        public register(listener: Listener, filepath?: string): void;
+        public register(listener: Listener, filepath?: string): Listener;
         public reload(id: string): Listener;
         public reloadAll(): this;
         public remove(id: string): Listener;
@@ -401,7 +398,7 @@ declare module 'discord-akairo' {
 
         public abstract clear(id: string): any;
         public abstract delete(id: string, key: string): any;
-        public abstract get(id: string, key: string, defaultValue: any): any;
+        public abstract get(id: string, key: string, defaultValue?: any): any;
         public abstract init(): any;
         public abstract set(id: string, key: string, value: any): any;
     }
@@ -416,7 +413,7 @@ declare module 'discord-akairo' {
 
         public clear(id: string): Promise<void>;
         public delete(id: string, key: string): Promise<boolean>;
-        public get(id: string, key: string, defaultValue: any): any;
+        public get(id: string, key: string, defaultValue?: any): any;
         public init(): Promise<void>;
         public set(id: string, key: string, value: any): Promise<boolean>;
     }
@@ -432,7 +429,7 @@ declare module 'discord-akairo' {
 
         public clear(id: string): Promise<any>;
         public delete(id: string, key: string): Promise<any>;
-        public get(id: string, key: string, defaultValue: any): any;
+        public get(id: string, key: string, defaultValue?: any): any;
         public init(): Promise<void>;
         public set(id: string, key: string, value: any): Promise<any>;
     }
@@ -445,7 +442,7 @@ declare module 'discord-akairo' {
 
         public clear(id: string): Promise<any>;
         public delete(id: string, key: string): Promise<any>;
-        public get(id: string, key: string, defaultValue: any): any;
+        public get(id: string, key: string, defaultValue?: any): any;
         public getDocument(id: string): any;
         public init(): Promise<void>;
         public set(id: string, key: string, value: any): Promise<any>;
@@ -495,7 +492,6 @@ declare module 'discord-akairo' {
 
     export interface ArgumentOptions {
         default?: DefaultValueSupplier | any;
-        description?: StringResolvable;
         id?: string;
         index?: number;
         limit?: number;
@@ -504,7 +500,7 @@ declare module 'discord-akairo' {
         multipleFlags?: boolean;
         flag?: string | string[];
         otherwise?: StringResolvable | MessageOptions | MessageAdditions | OtherwiseContentSupplier;
-        prompt?: ArgumentPromptOptions | boolean;
+        prompt?: ArgumentPromptOptions;
         type?: ArgumentType | ArgumentTypeCaster;
         unordered?: boolean | number | number[];
     }
@@ -663,7 +659,7 @@ declare module 'discord-akairo' {
 
     export type ArgumentGenerator = (message: Message, parsed: ContentParserResult, state: ArgumentRunnerState) => IterableIterator<ArgumentOptions | Flag>;
 
-    export type ArgumentTypeCaster = (message: Message, phrase: string) => any;
+    export type ArgumentTypeCaster = (message: Message, phrase: string) => Promise<any>;
 
     export type BeforeAction = (message: Message) => any;
 
@@ -749,7 +745,9 @@ declare module 'discord-akairo' {
             GUILDS: 'guilds';
             MESSAGE: 'message';
             GUILD_MESSAGE: 'guildMessage';
+            RELEVANT_MESSAGE: 'relevantMessage';
             INVITE: 'invite';
+            USER_MENTION: 'userMention';
             MEMBER_MENTION: 'memberMention';
             CHANNEL_MENTION: 'channelMention';
             ROLE_MENTION: 'roleMention';
@@ -770,6 +768,7 @@ declare module 'discord-akairo' {
             COMMAND_STARTED: 'commandStarted';
             COMMAND_FINISHED: 'commandFinished';
             COMMAND_CANCELLED: 'commandCancelled';
+            COMMAND_BREAKOUT: 'commandBreakout';
             COMMAND_LOCKED: 'commandLocked';
             MISSING_PERMISSIONS: 'missingPermissions';
             COOLDOWN: 'cooldown';

@@ -55,10 +55,10 @@ class ListenerHandler extends AkairoHandler {
      * Registers a module.
      * @param {Listener} listener - Module to use.
      * @param {string} [filepath] - Filepath of module.
-     * @returns {void}
+     * @returns {Listener}
      */
     register(listener, filepath) {
-        super.register(listener, filepath);
+        listener = super.register(listener, filepath);
         listener.exec = listener.exec.bind(listener);
         this.addToEmitter(listener.id);
         return listener;

@@ -48,7 +48,7 @@ class InhibitorHandler extends AkairoHandler {
      * @param {string} type - Type of inhibitor, 'all', 'pre', or 'post'.
      * @param {Message} message - Message to test.
      * @param {Command} [command] - Command to use.
-     * @returns {Promise<string|void>}
+     * @returns {Promise<string>}
      */
     async test(type, message, command) {
         if (!this.modules.size) return null;
@@ -88,14 +88,14 @@ class InhibitorHandler extends AkairoHandler {
      * @name InhibitorHandler#register
      * @param {Inhibitor} inhibitor - Module to use.
      * @param {string} [filepath] - Filepath of module.
-     * @returns {void}
+     * @returns {Inhibitor}
      */
 
     /**
      * Loads an inhibitor.
      * @method
-     * @param {string|Inhibitor} thing - Module or path to module.
      * @name InhibitorHandler#load
+     * @param {string|Inhibitor} thing - Module or path to module.
      * @returns {Inhibitor}
      */
 

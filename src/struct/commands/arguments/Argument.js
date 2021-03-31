@@ -49,7 +49,7 @@ class Argument {
          * Whether to process multiple option flags instead of just the first.
          * @type {boolean}
          */
-        this.multipleFlags = multipleFlags;
+        this.multipleFlags = Boolean(multipleFlags);
 
         /**
          * The index to start from.
@@ -642,7 +642,7 @@ module.exports = Argument;
  * @prop {boolean} infinite - Whether the prompt is infinite or not.
  * @prop {Message} message - The message that caused the prompt.
  * @prop {string} phrase - The input phrase that caused the prompt if there was one, otherwise an empty string.
- * @param {void|Flag} failure - The value that failed if there was one, otherwise null.
+ * @prop {void|Flag} failure - The value that failed if there was one, otherwise null.
  */
 
 /**
@@ -742,18 +742,7 @@ module.exports = Argument;
  *
  * A regular expression can also be used.
  * The evaluated argument will be an object containing the `match` and `matches` if global.
- * @typedef {string|string[]} ArgumentType
- */
-
-/**
- * A function for processing user input to use as an argument.
- * A void return value will use the default value for the argument or start a prompt.
- * Any other truthy return value will be used as the evaluated argument.
- * If returning a Promise, the resolved value will go through the above steps.
- * @typedef {Function} ArgumentTypeCaster
- * @param {Message} message - Message that triggered the command.
- * @param {string} phrase - The user input.
- * @returns {any}
+ * @typedef {string|string[]|RegExp} ArgumentType
  */
 
 /**
@@ -761,15 +750,15 @@ module.exports = Argument;
  * This is mainly used in composing argument types.
  * @typedef {Function} ArgumentTypeCaster
  * @param {Message} message - Message that triggered the command.
- * @param {any} value - Some value.
- * @returns {any}
+ * @param {string} phrase - The user input.
+ * @returns {Promise<any>}
  */
 
 /**
  * Data passed to functions that run when things failed.
  * @typedef {Object} FailureData
  * @prop {string} phrase - The input phrase that failed if there was one, otherwise an empty string.
- * @param {void|Flag} failure - The value that failed if there was one, otherwise null.
+ * @prop {void|Flag} failure - The value that failed if there was one, otherwise null.
  */
 
 /**
