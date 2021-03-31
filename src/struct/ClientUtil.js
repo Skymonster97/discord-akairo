@@ -48,22 +48,21 @@ class ClientUtil {
     checkUser(text, user, caseSensitive = false, wholeWord = false) {
         if (user.id === text) return true;
 
-        const reg = /<@!?(\d{17,19})>/;
-        const match = text.match(reg);
-
-        if (match && user.id === match[1]) return true;
+        const reg = new RegExp(`<@!?${user.id}>`);
+        if (reg.test(text)) return true;
 
         text = caseSensitive ? text : text.toLowerCase();
-        const username = caseSensitive ? user.username : user.username.toLowerCase();
-        const discrim = user.discriminator;
+        const [name, discrim] = text.split('#').filter(a => a);
+
+        let { username, discriminator } = user;
+        username = caseSensitive ? username : username.toLowerCase();
 
         if (!wholeWord) {
             return username.includes(text)
-            || (username.includes(text.split('#')[0]) && discrim.includes(text.split('#')[1]));
+            || (username.includes(name) && discriminator.includes(discrim));
         }
 
-        return username === text
-        || (username === text.split('#')[0] && discrim === text.split('#')[1]);
+        return username === text || (username === name && discriminator === discrim);
     }
 
     /**
@@ -101,25 +100,25 @@ class ClientUtil {
     checkMember(text, member, caseSensitive = false, wholeWord = false) {
         if (member.id === text) return true;
 
-        const reg = /<@!?(\d{17,19})>/;
-        const match = text.match(reg);
-
-        if (match && member.id === match[1]) return true;
+        const reg = new RegExp(`<@!?${member.id}>`);
+        if (reg.test(text)) return true;
 
         text = caseSensitive ? text : text.toLowerCase();
-        const username = caseSensitive ? member.user.username : member.user.username.toLowerCase();
-        const displayName = caseSensitive ? member.displayName : member.displayName.toLowerCase();
-        const discrim = member.user.discriminator;
+        const [name, discrim] = text.split('#').filter(a => a);
+
+        let { user: { username, discriminator }, displayName } = member;
+        username = caseSensitive ? username : username.toLowerCase();
+        displayName = caseSensitive ? displayName : displayName.toLowerCase();
 
         if (!wholeWord) {
             return displayName.includes(text)
             || username.includes(text)
-            || ((username.includes(text.split('#')[0]) || displayName.includes(text.split('#')[0])) && discrim.includes(text.split('#')[1]));
+            || ((username.includes(name) || displayName.includes(name)) && discriminator.includes(discrim));
         }
 
         return displayName === text
         || username === text
-        || ((username === text.split('#')[0] || displayName === text.split('#')[0]) && discrim === text.split('#')[1]);
+        || ((username === name || displayName === name) && discriminator === discrim);
     }
 
     /**
@@ -157,21 +156,17 @@ class ClientUtil {
     checkChannel(text, channel, caseSensitive = false, wholeWord = false) {
         if (channel.id === text) return true;
 
-        const reg = /<#(\d{17,19})>/;
-        const match = text.match(reg);
-
-        if (match && channel.id === match[1]) return true;
+        const reg = new RegExp(`<#${channel.id}>`);
+        if (reg.test(text)) return true;
 
         text = caseSensitive ? text : text.toLowerCase();
         const name = caseSensitive ? channel.name : channel.name.toLowerCase();
 
         if (!wholeWord) {
-            return name.includes(text)
-            || name.includes(text.replace(/^#/, ''));
+            return name.includes(text) || name.includes(text.replace(/^#/, ''));
         }
 
-        return name === text
-        || name === text.replace(/^#/, '');
+        return name === text || name === text.replace(/^#/, '');
     }
 
     /**
@@ -209,21 +204,17 @@ class ClientUtil {
     checkRole(text, role, caseSensitive = false, wholeWord = false) {
         if (role.id === text) return true;
 
-        const reg = /<@&(\d{17,19})>/;
-        const match = text.match(reg);
-
-        if (match && role.id === match[1]) return true;
+        const reg = new RegExp(`<@&${role.id}>`);
+        if (reg.test(text)) return true;
 
         text = caseSensitive ? text : text.toLowerCase();
         const name = caseSensitive ? role.name : role.name.toLowerCase();
 
         if (!wholeWord) {
-            return name.includes(text)
-            || name.includes(text.replace(/^@/, ''));
+            return name.includes(text) || name.includes(text.replace(/^@/, ''));
         }
 
-        return name === text
-        || name === text.replace(/^@/, '');
+        return name === text || name === text.replace(/^@/, '');
     }
 
     /**
@@ -261,21 +252,17 @@ class ClientUtil {
     checkEmoji(text, emoji, caseSensitive = false, wholeWord = false) {
         if (emoji.id === text) return true;
 
-        const reg = /<a?:[a-zA-Z0-9_]+:(\d{17,19})>/;
-        const match = text.match(reg);
-
-        if (match && emoji.id === match[1]) return true;
+        const reg = new RegExp(`<a?:\\w+:${emoji.id}>`);
+        if (reg.test(text)) return true;
 
         text = caseSensitive ? text : text.toLowerCase();
         const name = caseSensitive ? emoji.name : emoji.name.toLowerCase();
 
         if (!wholeWord) {
-            return name.includes(text)
-            || name.includes(text.replace(/:/, ''));
+            return name.includes(text) || name.includes(text.replace(/:/, ''));
         }
 
-        return name === text
-        || name === text.replace(/:/, '');
+        return name === text || name === text.replace(/:/, '');
     }
 
     /**
@@ -316,8 +303,7 @@ class ClientUtil {
         text = caseSensitive ? text : text.toLowerCase();
         const name = caseSensitive ? guild.name : guild.name.toLowerCase();
 
-        if (!wholeWord) return name.includes(text);
-        return name === text;
+        return wholeWord ? name === text : name.includes(text);
     }
 
     /**
@@ -334,13 +320,7 @@ class ClientUtil {
      * @returns {string[]}
      */
     resolvePermissionNumber(number) {
-        const resolved = [];
-
-        for (const key of Object.keys(Permissions.FLAGS)) {
-            if (number & Permissions.FLAGS[key]) resolved.push(key);
-        }
-
-        return resolved;
+        return Object.keys(Permissions.FLAGS).filter(key => number & Permissions.FLAGS[key]);
     }
 
     /**
